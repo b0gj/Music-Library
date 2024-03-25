@@ -14,7 +14,7 @@ public class AlbumDAO {
 
     public List<Album> getAllAlbums() {
         List<Album> albums = new ArrayList<>();
-        String sql = "SELECT * FROM Albums";
+        String sql = "SELECT AlbumID, Title, ArtistID, ReleaseYear, GenreID FROM Albums";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
@@ -25,7 +25,7 @@ public class AlbumDAO {
                         rs.getString("Title"),
                         rs.getInt("ArtistID"),
                         rs.getInt("ReleaseYear"),
-                        rs.getString("Genre")
+                        rs.getInt("GenreID")
                 );
                 albums.add(album);
             }
@@ -36,14 +36,14 @@ public class AlbumDAO {
     }
 
     public void addAlbum(Album album) {
-        String sql = "INSERT INTO Albums (Title, ArtistID, ReleaseYear, Genre) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Albums (Title, ArtistID, ReleaseYear, GenreID) VALUES (?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, album.getTitle());
             pstmt.setInt(2, album.getArtistID());
             pstmt.setInt(3, album.getReleaseYear());
-            pstmt.setString(4, album.getGenre());
+            pstmt.setInt(4, album.getGenreID()); // Change to genreID
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -52,14 +52,14 @@ public class AlbumDAO {
     }
 
     public void updateAlbum(Album album) {
-        String sql = "UPDATE Albums SET Title = ?, ArtistID = ?, ReleaseYear = ?, Genre = ? WHERE AlbumID = ?";
+        String sql = "UPDATE Albums SET Title = ?, ArtistID = ?, ReleaseYear = ?, GenreID = ? WHERE AlbumID = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, album.getTitle());
             pstmt.setInt(2, album.getArtistID());
             pstmt.setInt(3, album.getReleaseYear());
-            pstmt.setString(4, album.getGenre());
+            pstmt.setInt(4, album.getGenreID()); // Change to genreID
             pstmt.setInt(5, album.getID());
             pstmt.executeUpdate();
 

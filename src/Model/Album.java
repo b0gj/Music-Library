@@ -3,16 +3,16 @@ package Model;
 public class Album {
     private int ID;
     private String title;
-    private int ArtistID;
+    private int artistID;
     private int releaseYear;
-    private String genre;
+    private int genreID; // Changed from String genre to int genreID
 
-    public Album(int id, String title, int artistId, int releaseYear, String genre) {
-        this.ID = id;
+    public Album(int ID, String title, int artistID, int releaseYear, int genreID) {
+        this.ID = ID;
         this.title = title;
-        ArtistID = artistId;
+        this.artistID = artistID;
         this.releaseYear = releaseYear;
-        this.genre = genre;
+        this.genreID = genreID;
     }
 
     public int getID() {
@@ -32,11 +32,11 @@ public class Album {
     }
 
     public int getArtistID() {
-        return ArtistID;
+        return artistID;
     }
 
     public void setArtistID(int artistID) {
-        ArtistID = artistID;
+        this.artistID = artistID;
     }
 
     public int getReleaseYear() {
@@ -47,11 +47,11 @@ public class Album {
         this.releaseYear = releaseYear;
     }
 
-    public String getGenre() {
-        return genre;
+    public int getGenreID() {
+        return genreID;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setGenreID(int genreID) {
+        this.genreID = genreID;
     }
 }

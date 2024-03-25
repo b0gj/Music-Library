@@ -9,7 +9,7 @@ import java.util.List;
 
 public class GenreDAO {
 
-    public Genre getGenreByID(int genreID) {
+    public static Genre getGenreByID(int genreID) {
         String sql = "SELECT * FROM Genres WHERE GenreID = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

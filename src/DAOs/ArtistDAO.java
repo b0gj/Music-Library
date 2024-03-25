@@ -9,6 +9,27 @@ import java.util.List;
 
 public class ArtistDAO {
 
+    public static Artist getArtistByID(int artistID) {
+        String sql = "SELECT * FROM Artists WHERE ArtistID = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, artistID);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Artist(
+                            rs.getInt("ArtistID"),
+                            rs.getString("Name"),
+                            rs.getInt("BirthYear")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Or a default Artist object
+    }
+
     public List<Artist> getAllArtists() {
         List<Artist> artists = new ArrayList<>();
         String sql = "SELECT ArtistID, Name, BirthYear FROM Artists";

@@ -11,6 +11,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumDAO {
+    public static Album getAlbumByID(int albumID) {
+        String sql = "SELECT * FROM Albums WHERE AlbumID = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, albumID);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Album(
+                            rs.getInt("AlbumID"),
+                            rs.getString("Title"),
+                            rs.getInt("ArtistID"),
+                            rs.getInt("ReleaseYear"),
+                            rs.getInt("GenreID")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Or a default Album object
+    }
 
     public List<Album> getAllAlbums() {
         List<Album> albums = new ArrayList<>();

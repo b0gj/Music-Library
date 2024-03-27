@@ -2,13 +2,17 @@ package Model;
 
 public class Song {
     private int ID;
-    private String Title;
-    private int AlbumID;
+    private String title;
+    private int albumID;
 
     public Song(int id, String title, int albumId) {
         this.ID = id;
-        Title = title;
-        AlbumID = albumId;
+        this.title = title;
+        albumID = albumId;
+    }
+
+    public Song(String title) {
+        this.title = title;
     }
 
     public int getID() {
@@ -20,18 +24,18 @@ public class Song {
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String title) {
-        Title = title;
+        this.title = title;
     }
 
     public int getAlbumID() {
-        return AlbumID;
+        return albumID;
     }
 
     public void setAlbumID(int albumID) {
-        AlbumID = albumID;
+        this.albumID = albumID;
     }
 }

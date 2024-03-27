@@ -16,9 +16,9 @@ public class MusicCollectionFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // Adding Tabs
-        tabbedPane.addTab("Songs", new SongPanel());
         tabbedPane.addTab("Artists", new ArtistPanel());
         tabbedPane.addTab("Albums", new AlbumPanel());
+        tabbedPane.addTab("Songs", new SongPanel());
 
         // Adding the tabbed pane to the frame
         add(tabbedPane);

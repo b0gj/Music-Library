@@ -11,6 +11,11 @@ public class Artist {
         this.birthYear = birthYear;
     }
 
+    public Artist(String name, int birthYear) {
+        this.name = name;
+        this.birthYear = birthYear;
+    }
+
     public int getID() {
         return ID;
     }

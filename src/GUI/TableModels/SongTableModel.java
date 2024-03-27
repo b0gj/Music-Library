@@ -2,17 +2,13 @@ package GUI.TableModels;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
-
-import DAOs.AlbumDAO;
-import DAOs.ArtistDAO;
-import DAOs.GenreDAO;
-import Model.Song;
+import Model.Full.SongFull;
 
 public class SongTableModel extends AbstractTableModel {
-    private final List<Song> songs;
+    private final List<SongFull> songs;
     private final String[] columnNames = {"Title", "Artist", "Album", "Genre", "Release Year"};
 
-    public SongTableModel(List<Song> songs) {
+    public SongTableModel(List<SongFull> songs) {
         this.songs = songs;
     }
 
@@ -28,13 +24,13 @@ public class SongTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Song song = songs.get(rowIndex);
+        SongFull song = songs.get(rowIndex);
         return switch (columnIndex) {
             case 0 -> song.getTitle();
-            case 1 -> ArtistDAO.getArtistByID(AlbumDAO.getAlbumByID(song.getAlbumID()).getArtistID()).getName();
-            case 2 -> AlbumDAO.getAlbumByID(song.getAlbumID());
-            case 3 -> GenreDAO.getGenreByID(AlbumDAO.getAlbumByID(song.getAlbumID()).getGenreID()).getName();
-            case 4 -> AlbumDAO.getAlbumByID(song.getAlbumID()).getReleaseYear();
+            case 1 -> song.getArtist();
+            case 2 -> song.getAlbum();
+            case 3 -> song.getGenre();
+            case 4 -> song.getReleaseYear();
             default -> null;
         };
     }

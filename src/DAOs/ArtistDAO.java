@@ -2,6 +2,7 @@ package DAOs;
 
 import DB.DBConnection;
 import Model.Artist;
+import Model.Full.ArtistFull;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -41,6 +42,32 @@ public class ArtistDAO {
                 Artist artist = new Artist(
                         rs.getInt("ArtistID"),
                         rs.getString("Name"),
+                        rs.getInt("BirthYear")
+                );
+                artists.add(artist);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return artists;
+    }
+
+    public List<ArtistFull> getAllArtistsWithDetails() {
+        List<ArtistFull> artists = new ArrayList<>();
+        String sql = "SELECT ar.Name, ar.BirthYear, COUNT(DISTINCT a.AlbumID) as AlbumsCount, COUNT(s.SongID) as SongsCount " +
+                "FROM Artists ar " +
+                "LEFT JOIN Albums a ON ar.ArtistID = a.ArtistID " +
+                "LEFT JOIN Songs s ON a.AlbumID = s.AlbumID " +
+                "GROUP BY ar.ArtistID";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                ArtistFull artist = new ArtistFull(
+                        rs.getString("Name"),
+                        rs.getInt("AlbumsCount"),
+                        rs.getInt("SongsCount"),
                         rs.getInt("BirthYear")
                 );
                 artists.add(artist);

@@ -1,10 +1,14 @@
 package GUI.Panels;
 
+import DAOs.SongDAO;
+import GUI.TableModels.SongTableModel;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class SongPanel extends JPanel{
-    private JTable songTable = new JTable();
+    SongTableModel s = new SongTableModel(SongDAO.getAllSongsWithDetails());
+    private JTable songTable = new JTable(s);
     private JButton addSongButton = new JButton("Add Song");
 
     public SongPanel() {

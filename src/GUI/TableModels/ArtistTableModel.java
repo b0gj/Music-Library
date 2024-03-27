@@ -2,13 +2,13 @@ package GUI.TableModels;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
-import Model.Artist;
+import Model.Full.ArtistFull;
 
 public class ArtistTableModel extends AbstractTableModel {
-    private final List<Artist> artists;
-    private final String[] columnNames = {"Name", "Birth Year"};
+    private final List<ArtistFull> artists;
+    private final String[] columnNames = {"Name", "Albums Count", "Songs Count", "Birth Year"};
 
-    public ArtistTableModel(List<Artist> artists) {
+    public ArtistTableModel(List<ArtistFull> artists) {
         this.artists = artists;
     }
 
@@ -24,12 +24,14 @@ public class ArtistTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Artist artist = artists.get(rowIndex);
-        switch (columnIndex) {
-            case 0: return artist.getName();
-            case 1: return artist.getBirthYear();
-            default: return null;
-        }
+        ArtistFull artist = artists.get(rowIndex);
+        return switch (columnIndex) {
+            case 0 -> artist.getName();
+            case 1 -> artist.getAlbumsCount();
+            case 2 -> artist.getSongsCount();
+            case 3 -> artist.getBirthYear();
+            default -> null;
+        };
     }
 
     @Override

@@ -15,6 +15,11 @@ public class Album {
         this.genreID = genreID;
     }
 
+    public Album(String title, int releaseYear) {
+        this.title = title;
+        this.releaseYear = releaseYear;
+    }
+
     public int getID() {
         return ID;
     }

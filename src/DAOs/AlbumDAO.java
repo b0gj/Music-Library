@@ -58,7 +58,7 @@ public class AlbumDAO {
         return albums;
     }
 
-    public List<AlbumFull> getAllAlbumsWithDetails() {
+    public static List<AlbumFull> getAllAlbumsWithDetails() {
         List<AlbumFull> albums = new ArrayList<>();
         String sql = "SELECT a.Title, ar.Name as ArtistName, g.Name as GenreName, COUNT(s.SongID) as SongsCount, a.ReleaseYear " +
                 "FROM Albums a " +

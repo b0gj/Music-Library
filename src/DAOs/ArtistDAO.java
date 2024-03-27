@@ -52,7 +52,7 @@ public class ArtistDAO {
         return artists;
     }
 
-    public List<ArtistFull> getAllArtistsWithDetails() {
+    public static List<ArtistFull> getAllArtistsWithDetails() {
         List<ArtistFull> artists = new ArrayList<>();
         String sql = "SELECT ar.Name, ar.BirthYear, COUNT(DISTINCT a.AlbumID) as AlbumsCount, COUNT(s.SongID) as SongsCount " +
                 "FROM Artists ar " +

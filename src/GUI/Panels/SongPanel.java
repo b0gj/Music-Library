@@ -7,8 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SongPanel extends JPanel{
-    SongTableModel s = new SongTableModel(SongDAO.getAllSongsWithDetails());
-    private JTable songTable = new JTable(s);
+    SongTableModel songTableModel = new SongTableModel(SongDAO.getAllSongsWithDetails());
+    private JTable songTable = new JTable(songTableModel);
     private JButton addSongButton = new JButton("Add Song");
 
     public SongPanel() {

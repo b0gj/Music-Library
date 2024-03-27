@@ -94,7 +94,7 @@ public class ArtistDAO {
         }
     }
 
-    public void updateArtist(Artist artist) {
+    public static void updateArtist(Artist artist) {
         String sql = "UPDATE Artists SET Name = ?, BirthYear = ? WHERE ArtistID = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

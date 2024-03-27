@@ -1,8 +1,9 @@
 package GUI.TableModels;
 
+import Model.Full.ArtistFull;
+
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
-import Model.Full.ArtistFull;
 
 public class ArtistTableModel extends AbstractTableModel {
     private final List<ArtistFull> artists;
@@ -32,6 +33,10 @@ public class ArtistTableModel extends AbstractTableModel {
             case 3 -> artist.getBirthYear();
             default -> null;
         };
+    }
+
+    public int getArtistIdAtRow(int rowIndex) {
+        return artists.get(rowIndex).getID(); // Assuming ArtistFull class has getID method.
     }
 
     @Override

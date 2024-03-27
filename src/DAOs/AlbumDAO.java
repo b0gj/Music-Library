@@ -60,7 +60,7 @@ public class AlbumDAO {
 
     public static List<AlbumFull> getAllAlbumsWithDetails() {
         List<AlbumFull> albums = new ArrayList<>();
-        String sql = "SELECT a.Title, ar.Name as ArtistName, g.Name as GenreName, COUNT(s.SongID) as SongsCount, a.ReleaseYear " +
+        String sql = "SELECT a.AlbumID, a.Title, ar.Name as ArtistName, g.Name as GenreName, COUNT(s.SongID) as SongsCount, a.ReleaseYear " +
                 "FROM Albums a " +
                 "JOIN Artists ar ON a.ArtistID = ar.ArtistID " +
                 "JOIN Genres g ON a.GenreID = g.GenreID " +
@@ -72,6 +72,7 @@ public class AlbumDAO {
 
             while (rs.next()) {
                 AlbumFull album = new AlbumFull(
+                        rs.getInt("AlbumID"),
                         rs.getString("Title"),
                         rs.getString("ArtistName"),
                         rs.getString("GenreName"),
@@ -85,6 +86,7 @@ public class AlbumDAO {
         }
         return albums;
     }
+
 
     public void addAlbum(Album album) {
         String sql = "INSERT INTO Albums (Title, ArtistID, ReleaseYear, GenreID) VALUES (?, ?, ?, ?)";

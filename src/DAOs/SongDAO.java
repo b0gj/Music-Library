@@ -36,7 +36,7 @@ public class SongDAO {
 
     public static List<SongFull> getAllSongsWithDetails() {
         List<SongFull> songs = new ArrayList<>();
-        String sql = "SELECT s.Title, ar.Name as ArtistName, a.Title as AlbumTitle, g.Name as GenreName, a.ReleaseYear " +
+        String sql = "SELECT s.SongID, s.Title, ar.Name as ArtistName, a.Title as AlbumTitle, g.Name as GenreName, a.ReleaseYear " +
                 "FROM Songs s " +
                 "JOIN Albums a ON s.AlbumID = a.AlbumID " +
                 "JOIN Artists ar ON a.ArtistID = ar.ArtistID " +
@@ -47,6 +47,7 @@ public class SongDAO {
 
             while (rs.next()) {
                 SongFull song = new SongFull(
+                        rs.getInt("SongID"),
                         rs.getString("Title"),
                         rs.getString("ArtistName"),
                         rs.getString("AlbumTitle"),
@@ -60,6 +61,7 @@ public class SongDAO {
         }
         return songs;
     }
+
 
     public void addSong(Song song) {
         String sql = "INSERT INTO Songs (Title, AlbumID) VALUES (?, ?)";

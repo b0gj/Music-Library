@@ -11,7 +11,8 @@ public class Song {
         albumID = albumId;
     }
 
-    public Song(String title) {
+    public Song(int ID, String title) {
+        this.ID = ID;
         this.title = title;
     }
 

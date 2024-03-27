@@ -15,7 +15,8 @@ public class Album {
         this.genreID = genreID;
     }
 
-    public Album(String title, int releaseYear) {
+    public Album(int ID, String title, int releaseYear) {
+        this.ID = ID;
         this.title = title;
         this.releaseYear = releaseYear;
     }

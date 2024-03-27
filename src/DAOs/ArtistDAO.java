@@ -54,7 +54,7 @@ public class ArtistDAO {
 
     public static List<ArtistFull> getAllArtistsWithDetails() {
         List<ArtistFull> artists = new ArrayList<>();
-        String sql = "SELECT ar.Name, ar.BirthYear, COUNT(DISTINCT a.AlbumID) as AlbumsCount, COUNT(s.SongID) as SongsCount " +
+        String sql = "SELECT ar.ArtistID, ar.Name, ar.BirthYear, COUNT(DISTINCT a.AlbumID) as AlbumsCount, COUNT(s.SongID) as SongsCount " +
                 "FROM Artists ar " +
                 "LEFT JOIN Albums a ON ar.ArtistID = a.ArtistID " +
                 "LEFT JOIN Songs s ON a.AlbumID = s.AlbumID " +
@@ -65,6 +65,7 @@ public class ArtistDAO {
 
             while (rs.next()) {
                 ArtistFull artist = new ArtistFull(
+                        rs.getInt("ArtistID"),
                         rs.getString("Name"),
                         rs.getInt("AlbumsCount"),
                         rs.getInt("SongsCount"),
@@ -78,7 +79,8 @@ public class ArtistDAO {
         return artists;
     }
 
-    public void addArtist(Artist artist) {
+
+    public static void addArtist(Artist artist) {
         String sql = "INSERT INTO Artists (Name, BirthYear) VALUES (?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -107,16 +109,19 @@ public class ArtistDAO {
         }
     }
 
-    public void deleteArtist (int artistId){
+    public static boolean deleteArtist(int artistId) {
         String sql = "DELETE FROM Artists WHERE ArtistID = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, artistId);
             pstmt.executeUpdate();
+            return true; // Deletion successful
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage()); // Optionally log this error
+            return false; // Deletion failed due to SQL exception
         }
     }
+
 }

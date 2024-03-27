@@ -8,8 +8,8 @@ public class SongFull extends Song {
     private String genre;
     private String releaseYear;
 
-    public SongFull(String title, String artist, String album, String genre, String releaseYear) {
-        super(title);
+    public SongFull(int ID, String title, String artist, String album, String genre, String releaseYear) {
+        super(ID, title);
         this.artist = artist;
         this.album = album;
         this.genre = genre;

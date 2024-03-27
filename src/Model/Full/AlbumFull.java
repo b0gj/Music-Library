@@ -7,8 +7,8 @@ public class AlbumFull extends Album {
     private String genre;
     private int songsCount;
 
-    public AlbumFull(String title, String artist, String genre, int songsCount, int releaseYear) {
-        super(title,releaseYear);
+    public AlbumFull(int ID, String title, String artist, String genre, int songsCount, int releaseYear) {
+        super(ID, title,releaseYear);
         this.artist = artist;
         this.genre = genre;
         this.songsCount = songsCount;

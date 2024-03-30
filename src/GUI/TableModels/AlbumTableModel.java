@@ -1,12 +1,13 @@
 package GUI.TableModels;
 
+import Model.Full.AlbumFull;
+
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
-import Model.Full.AlbumFull;
 
 public class AlbumTableModel extends AbstractTableModel {
     private final List<AlbumFull> albums;
-    private final String[] columnNames = {"Title", "Artist", "Genre", "Songs Count", "Release Year"};
+    private final String[] columnNames = {"Title", "Artist", "Genre", "Songs Count", "Release Year"}; // Example column names
 
     public AlbumTableModel(List<AlbumFull> albums) {
         this.albums = albums;
@@ -38,5 +39,9 @@ public class AlbumTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int column) {
         return columnNames[column];
+    }
+
+    public int getAlbumIdAtRow(int rowIndex) {
+        return albums.get(rowIndex).getID();
     }
 }

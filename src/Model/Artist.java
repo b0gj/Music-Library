@@ -16,6 +16,11 @@ public class Artist {
         this.birthYear = birthYear;
     }
 
+    @Override
+    public String toString() {
+        return this.getName(); // Assuming getName() returns the artist's name
+    }
+
     public int getID() {
         return ID;
     }

@@ -9,6 +9,11 @@ public class Genre {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return this.getName(); // Assuming getName() returns the genre's name
+    }
+
     public int getGenreID() {
         return genreID;
     }

@@ -30,7 +30,7 @@ public class GenreDAO {
     }
 
 
-    public List<Genre> getAllGenres() {
+    public static List<Genre> getAllGenres() {
         List<Genre> genres = new ArrayList<>();
         String sql = "SELECT * FROM Genres";
         try (Connection conn = DBConnection.getConnection();

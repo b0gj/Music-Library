@@ -28,10 +28,10 @@ public class ArtistDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null; // Or a default Artist object
+        return null;
     }
 
-    public List<Artist> getAllArtists() {
+    public static List<Artist> getAllArtists() {
         List<Artist> artists = new ArrayList<>();
         String sql = "SELECT ArtistID, Name, BirthYear FROM Artists";
         try (Connection conn = DBConnection.getConnection();

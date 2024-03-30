@@ -7,9 +7,6 @@ import Model.Artist;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 public class ArtistPanel extends JPanel {
     ArtistTableModel artistTableModel = new ArtistTableModel(ArtistDAO.getAllArtistsWithDetails());
@@ -29,10 +26,8 @@ public class ArtistPanel extends JPanel {
         buttonPanel.add(updateArtistButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
-        // Add Artist Action
         addArtistButton.addActionListener(e -> showAddArtistDialog());
 
-        // Delete Artist Action
         deleteArtistButton.addActionListener(e -> deleteSelectedArtist());
 
         updateArtistButton.addActionListener(e -> updateSelectedArtist());

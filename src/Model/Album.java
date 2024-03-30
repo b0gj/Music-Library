@@ -5,7 +5,7 @@ public class Album {
     private String title;
     private int artistID;
     private int releaseYear;
-    private int genreID; // Changed from String genre to int genreID
+    private int genreID;
 
     public Album(int ID, String title, int artistID, int releaseYear, int genreID) {
         this.ID = ID;

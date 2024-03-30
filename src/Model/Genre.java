@@ -11,7 +11,7 @@ public class Genre {
 
     @Override
     public String toString() {
-        return this.getName(); // Assuming getName() returns the genre's name
+        return this.getName();
     }
 
     public int getGenreID() {

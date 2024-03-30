@@ -11,7 +11,6 @@ import Model.Genre;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 import java.util.Vector;
 
 public class AlbumPanel extends JPanel {

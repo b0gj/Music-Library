@@ -36,11 +36,11 @@ public class ArtistTableModel extends AbstractTableModel {
     }
 
     public int getArtistIdAtRow(int rowIndex) {
-        return artists.get(rowIndex).getID(); // Assuming ArtistFull class has getID method.
+        return artists.get(rowIndex).getID();
     }
 
     public int getArtistBirthYearAtRow(int rowIndex) {
-        return artists.get(rowIndex).getBirthYear(); // Assumes ArtistFull has a getBirthYear method
+        return artists.get(rowIndex).getBirthYear();
     }
 
     @Override

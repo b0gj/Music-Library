@@ -5,7 +5,6 @@ import GUI.Panels.AlbumPanel;
 import GUI.Panels.SongPanel;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class MusicCollectionFrame extends JFrame {
 
@@ -15,15 +14,12 @@ public class MusicCollectionFrame extends JFrame {
         setSize(800, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // Adding Tabs
         tabbedPane.addTab("Artists", new ArtistPanel());
         tabbedPane.addTab("Albums", new AlbumPanel());
         tabbedPane.addTab("Songs", new SongPanel());
 
-        // Adding the tabbed pane to the frame
         add(tabbedPane);
 
-        // Display the JFrame
         setVisible(true);
     }
 }

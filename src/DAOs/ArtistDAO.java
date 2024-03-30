@@ -116,11 +116,11 @@ public class ArtistDAO {
 
             pstmt.setInt(1, artistId);
             pstmt.executeUpdate();
-            return true; // Deletion successful
+            return true;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage()); // Optionally log this error
-            return false; // Deletion failed due to SQL exception
+            System.out.println(e.getMessage());
+            return false;
         }
     }
 

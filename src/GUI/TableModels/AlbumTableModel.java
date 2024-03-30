@@ -7,7 +7,7 @@ import java.util.List;
 
 public class AlbumTableModel extends AbstractTableModel {
     private final List<AlbumFull> albums;
-    private final String[] columnNames = {"Title", "Artist", "Genre", "Songs Count", "Release Year"}; // Example column names
+    private final String[] columnNames = {"Title", "Artist", "Genre", "Songs Count", "Release Year"};
 
     public AlbumTableModel(List<AlbumFull> albums) {
         this.albums = albums;

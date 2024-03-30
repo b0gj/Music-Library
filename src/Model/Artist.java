@@ -18,7 +18,7 @@ public class Artist {
 
     @Override
     public String toString() {
-        return this.getName(); // Assuming getName() returns the artist's name
+        return this.getName();
     }
 
     public int getID() {

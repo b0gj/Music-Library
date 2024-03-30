@@ -19,7 +19,6 @@ public class ArtistPanel extends JPanel {
         setLayout(new BorderLayout());
         add(new JScrollPane(artistTable), BorderLayout.CENTER);
 
-        // Panel for buttons
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addArtistButton);
         buttonPanel.add(deleteArtistButton);
@@ -47,7 +46,6 @@ public class ArtistPanel extends JPanel {
             try {
                 String name = nameField.getText().trim();
                 int birthYear = Integer.parseInt(birthYearField.getText().trim());
-                // Further validation can be added here (e.g., name not empty)
                 if (name.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "Name cannot be empty", "Invalid Input", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -74,7 +72,7 @@ public class ArtistPanel extends JPanel {
         if (confirmation == JOptionPane.YES_OPTION) {
             for (int selectedRowIndex : selectedRows) {
                 int artistId = ((ArtistTableModel)artistTable.getModel()).getArtistIdAtRow(artistTable.convertRowIndexToModel(selectedRowIndex));
-                String artistName = (String) artistTable.getModel().getValueAt(artistTable.convertRowIndexToModel(selectedRowIndex), 0); // Assuming name is in the first column
+                String artistName = (String) artistTable.getModel().getValueAt(artistTable.convertRowIndexToModel(selectedRowIndex), 0);
                 if (ArtistDAO.deleteArtist(artistId)) {
                     deletedArtists.append(artistName).append("\n");
                 } else {
@@ -83,7 +81,6 @@ public class ArtistPanel extends JPanel {
             }
             refreshArtistTable();
 
-            // Show summary dialog
             StringBuilder summaryMessage = new StringBuilder();
             if (deletedArtists.length() > 0) {
                 summaryMessage.append("Deleted:\n").append(deletedArtists);
@@ -104,11 +101,10 @@ public class ArtistPanel extends JPanel {
             return;
         }
 
-        // Assuming the first column is the artist's ID, but it's hidden from the view
         int selectedRowIndex = selectedRows[0];
         int artistId = ((ArtistTableModel) artistTable.getModel()).getArtistIdAtRow(artistTable.convertRowIndexToModel(selectedRowIndex));
         String artistName = (String) artistTable.getModel().getValueAt(artistTable.convertRowIndexToModel(selectedRowIndex), 0);
-        int birthYear = ((ArtistTableModel) artistTable.getModel()).getArtistBirthYearAtRow(artistTable.convertRowIndexToModel(selectedRowIndex)); // Implement this method in ArtistTableModel
+        int birthYear = ((ArtistTableModel) artistTable.getModel()).getArtistBirthYearAtRow(artistTable.convertRowIndexToModel(selectedRowIndex));
 
         showUpdateArtistDialog(artistId, artistName, birthYear);
     }
@@ -133,8 +129,7 @@ public class ArtistPanel extends JPanel {
                     return;
                 }
 
-                // Call DAO to update the artist
-                ArtistDAO.updateArtist(new Artist(artistId, newName, newBirthYear)); // Assume Artist constructor with ID
+                ArtistDAO.updateArtist(new Artist(artistId, newName, newBirthYear));
                 refreshArtistTable();
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Birth Year must be a valid number", "Invalid Input", JOptionPane.ERROR_MESSAGE);

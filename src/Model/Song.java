@@ -16,6 +16,11 @@ public class Song {
         this.title = title;
     }
 
+    public Song(String title, int albumID) {
+        this.title = title;
+        this.albumID = albumID;
+    }
+
     public int getID() {
         return ID;
     }

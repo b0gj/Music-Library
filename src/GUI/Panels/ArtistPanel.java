@@ -10,14 +10,15 @@ import java.awt.*;
 
 public class ArtistPanel extends JPanel {
     ArtistTableModel artistTableModel = new ArtistTableModel(ArtistDAO.getAllArtistsWithDetails());
-    private JTable artistTable = new JTable(artistTableModel);
-    private JButton addArtistButton = new JButton("Add Artist");
-    private JButton deleteArtistButton = new JButton("Delete Artist/s");
-    private JButton updateArtistButton = new JButton("Update Artist");
+    private final JTable artistTable = new JTable(artistTableModel);
+    private final  JButton addArtistButton = new JButton("Add Artist");
+    private final JButton deleteArtistButton = new JButton("Delete Artist/s");
+    private final JButton updateArtistButton = new JButton("Update Artist");
 
     public ArtistPanel() {
         setLayout(new BorderLayout());
         add(new JScrollPane(artistTable), BorderLayout.CENTER);
+        artistTable.getTableHeader().setReorderingAllowed(false);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addArtistButton);
@@ -30,6 +31,15 @@ public class ArtistPanel extends JPanel {
         deleteArtistButton.addActionListener(e -> deleteSelectedArtist());
 
         updateArtistButton.addActionListener(e -> updateSelectedArtist());
+
+        deleteArtistButton.setEnabled(false);
+        updateArtistButton.setEnabled(false);
+
+        artistTable.getSelectionModel().addListSelectionListener(e -> {
+            boolean singleRowSelected = artistTable.getSelectedRows().length == 1;
+            updateArtistButton.setEnabled(singleRowSelected);
+            deleteArtistButton.setEnabled(artistTable.getSelectedRows().length > 0);
+        });
     }
 
     private void showAddArtistDialog() {

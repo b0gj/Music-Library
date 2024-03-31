@@ -13,25 +13,25 @@ import java.util.List;
 
 public class SongDAO {
 
-    public static List<Song> getAllSongs() {
-        List<Song> songs = new ArrayList<>();
-        String sql = "SELECT SongID, Title, AlbumID FROM Songs";
+    public static Song getSongByID(int songID) {
+        String sql = "SELECT * FROM Songs WHERE SongID = ?";
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                Song song = new Song(
-                        rs.getInt("SongID"),
-                        rs.getString("Title"),
-                        rs.getInt("AlbumID")
-                );
-                songs.add(song);
+            pstmt.setInt(1, songID);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Song(
+                            rs.getInt("SongID"),
+                            rs.getString("Title"),
+                            rs.getInt("AlbumID")
+                    );
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return songs;
+        return null;
     }
 
     public static List<SongFull> getAllSongsWithDetails() {
@@ -63,7 +63,7 @@ public class SongDAO {
     }
 
 
-    public void addSong(Song song) {
+    public static void addSong(Song song) {
         String sql = "INSERT INTO Songs (Title, AlbumID) VALUES (?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -77,7 +77,7 @@ public class SongDAO {
         }
     }
 
-    public void updateSong(Song song) {
+    public static void updateSong(Song song) {
         String sql = "UPDATE Songs SET Title = ?, AlbumID = ? WHERE SongID = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -92,7 +92,7 @@ public class SongDAO {
         }
     }
 
-    public void deleteSong(int songId) {
+    public static void deleteSong(int songId) {
         String sql = "DELETE FROM Songs WHERE SongID = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

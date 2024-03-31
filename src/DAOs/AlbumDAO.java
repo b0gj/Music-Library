@@ -35,7 +35,7 @@
             return null;
         }
 
-        public List<Album> getAllAlbums() {
+        public static List<Album> getAllAlbums() {
             List<Album> albums = new ArrayList<>();
             String sql = "SELECT AlbumID, Title, ArtistID, ReleaseYear, GenreID FROM Albums";
             try (Connection conn = DBConnection.getConnection();

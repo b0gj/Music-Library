@@ -28,6 +28,11 @@ public class Album {
         this.genreID = genreID;
     }
 
+    @Override
+    public String toString() {
+        return this.getTitle();
+    }
+
     public int getID() {
         return ID;
     }

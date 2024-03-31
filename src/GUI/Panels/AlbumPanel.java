@@ -10,19 +10,24 @@ import Model.Artist;
 import Model.Genre;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.util.Vector;
 
 public class AlbumPanel extends JPanel {
     AlbumTableModel albumTableModel = new AlbumTableModel(AlbumDAO.getAllAlbumsWithDetails());
-    private JTable albumTable = new JTable(albumTableModel);
-    private JButton addAlbumButton = new JButton("Add Album");
-    private JButton deleteAlbumButton = new JButton("Delete Album");
-    private JButton updateAlbumButton = new JButton("Update Album");
+    private final JTable albumTable = new JTable(albumTableModel);
+    private final JButton addAlbumButton = new JButton("Add Album");
+    private final JButton deleteAlbumButton = new JButton("Delete Album/s");
+    private final JButton updateAlbumButton = new JButton("Update Album");
 
     public AlbumPanel() {
         setLayout(new BorderLayout());
         add(new JScrollPane(albumTable), BorderLayout.CENTER);
+        albumTable.getTableHeader().setReorderingAllowed(false);
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        albumTable.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addAlbumButton);
@@ -34,7 +39,14 @@ public class AlbumPanel extends JPanel {
         deleteAlbumButton.addActionListener(e -> deleteSelectedAlbums());
         updateAlbumButton.addActionListener(e -> showUpdateAlbumDialog());
 
-        albumTable.getSelectionModel().addListSelectionListener(e -> updateAlbumButton.setEnabled(albumTable.getSelectedRows().length == 1));
+        deleteAlbumButton.setEnabled(false);
+        updateAlbumButton.setEnabled(false);
+
+        albumTable.getSelectionModel().addListSelectionListener(e -> {
+            boolean singleRowSelected = albumTable.getSelectedRows().length == 1;
+            updateAlbumButton.setEnabled(singleRowSelected);
+            deleteAlbumButton.setEnabled(albumTable.getSelectedRows().length > 0);
+        });
     }
 
     private void showAddAlbumDialog() {
@@ -71,20 +83,16 @@ public class AlbumPanel extends JPanel {
     private void deleteSelectedAlbums() {
         int[] selectedRows = albumTable.getSelectedRows();
         StringBuilder summary = new StringBuilder();
-        if (selectedRows.length > 0) {
-            for (int selectedRow : selectedRows) {
-                int albumId = albumTableModel.getAlbumIdAtRow(albumTable.convertRowIndexToModel(selectedRow));
-                if (AlbumDAO.deleteAlbum(albumId)) {
-                    summary.append("Deleted album ID: ").append(albumId).append("\n");
-                } else {
-                    summary.append("Could not delete album ID: ").append(albumId).append(". It may have songs or does not exist.\n");
-                }
+        for (int selectedRow : selectedRows) {
+            int albumId = albumTableModel.getAlbumIdAtRow(albumTable.convertRowIndexToModel(selectedRow));
+            if (AlbumDAO.deleteAlbum(albumId)) {
+                summary.append("Deleted album ID: ").append(albumId).append("\n");
+            } else {
+                summary.append("Could not delete album ID: ").append(albumId).append(". It may have songs or does not exist.\n");
             }
-            new ChangeSummaryDialog(null, "Delete Summary", summary.toString());
-            refreshAlbumTable();
-        } else {
-            JOptionPane.showMessageDialog(null, "No albums selected for deletion.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        new ChangeSummaryDialog(null, "Delete Summary", summary.toString());
+        refreshAlbumTable();
     }
 
 

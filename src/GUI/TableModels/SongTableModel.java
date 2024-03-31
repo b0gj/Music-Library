@@ -5,7 +5,7 @@ import java.util.List;
 import Model.Full.SongFull;
 
 public class SongTableModel extends AbstractTableModel {
-    private final List<SongFull> songs;
+    private List<SongFull> songs;
     private final String[] columnNames = {"Title", "Artist", "Album", "Genre", "Release Year"};
 
     public SongTableModel(List<SongFull> songs) {
@@ -39,4 +39,13 @@ public class SongTableModel extends AbstractTableModel {
     public String getColumnName(int column) {
         return columnNames[column];
     }
+
+    public int getSongIdAtRow(int rowIndex) {
+        return songs.get(rowIndex).getID();
+    }
+
+    public void setSongs(List<SongFull> songs) {
+        this.songs = songs;
+    }
+
 }

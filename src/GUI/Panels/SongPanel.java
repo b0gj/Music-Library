@@ -20,9 +20,9 @@ import java.util.Vector;
 import java.util.stream.Collectors;
 
 public class SongPanel extends JPanel {
-    SongTableModel songTableModel;
-    private List<SongFull> allSongs;
-    private final JTable songTable;
+    static SongTableModel songTableModel;
+    private static List<SongFull> allSongs;
+    private static JTable songTable = null;
     private final JButton addSongButton = new JButton("Add Song");
     private final JButton deleteSongButton = new JButton("Delete Song/s");
     private final JButton updateSongButton = new JButton("Update Song");
@@ -204,10 +204,12 @@ public class SongPanel extends JPanel {
         songTableModel.fireTableDataChanged();
     }
 
-    private void refreshSongTable() {
+    static void refreshSongTable() {
         songTableModel = new SongTableModel(SongDAO.getAllSongsWithDetails());
         songTable.setModel(songTableModel);
         songTableModel.fireTableDataChanged();
+
+        allSongs = SongDAO.getAllSongsWithDetails();
     }
 
 }

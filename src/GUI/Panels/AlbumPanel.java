@@ -20,24 +20,24 @@ public class AlbumPanel extends JPanel {
     private final JButton addAlbumButton = new JButton("Add Album");
     private final JButton deleteAlbumButton = new JButton("Delete Album/s");
     private final JButton updateAlbumButton = new JButton("Update Album");
+    private final JButton manageGenresButton = new JButton("Manage Genres");
 
     public AlbumPanel() {
         setLayout(new BorderLayout());
         add(new JScrollPane(albumTable), BorderLayout.CENTER);
         albumTable.getTableHeader().setReorderingAllowed(false);
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-        albumTable.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addAlbumButton);
         buttonPanel.add(deleteAlbumButton);
         buttonPanel.add(updateAlbumButton);
+        buttonPanel.add(manageGenresButton);
         add(buttonPanel, BorderLayout.SOUTH);
 
         addAlbumButton.addActionListener(e -> showAddAlbumDialog());
         deleteAlbumButton.addActionListener(e -> deleteSelectedAlbums());
         updateAlbumButton.addActionListener(e -> showUpdateAlbumDialog());
+        manageGenresButton.addActionListener(e -> manageGenres());
 
         deleteAlbumButton.setEnabled(false);
         updateAlbumButton.setEnabled(false);
@@ -156,9 +156,79 @@ public class AlbumPanel extends JPanel {
         return null;
     }
 
+    private void manageGenres() {
+        JDialog manageGenresDialog = new JDialog();
+        manageGenresDialog.setTitle("Manage Genres");
+        manageGenresDialog.setLayout(new BorderLayout());
+        manageGenresDialog.setSize(300, 200);
+        manageGenresDialog.setLocationRelativeTo(null);
+
+        DefaultListModel<Genre> genreListModel = new DefaultListModel<>();
+        GenreDAO.getAllGenres().forEach(genreListModel::addElement);
+        JList<Genre> genreList = new JList<>(genreListModel);
+        manageGenresDialog.add(new JScrollPane(genreList), BorderLayout.CENTER);
+
+        JPanel manageButtonsPanel = new JPanel();
+        JButton addGenreButton = new JButton("Add");
+        JButton editGenreButton = new JButton("Edit");
+        JButton deleteGenreButton = new JButton("Delete");
+
+        addGenreButton.addActionListener(e -> addGenre(genreListModel));
+        editGenreButton.addActionListener(e -> editGenre(genreList, genreListModel));
+        deleteGenreButton.addActionListener(e -> deleteGenre(genreList, genreListModel));
+
+        manageButtonsPanel.add(addGenreButton);
+        manageButtonsPanel.add(editGenreButton);
+        manageButtonsPanel.add(deleteGenreButton);
+
+        manageGenresDialog.add(manageButtonsPanel, BorderLayout.SOUTH);
+        manageGenresDialog.setVisible(true);
+    }
+
+    private void addGenre(DefaultListModel<Genre> genreListModel) {
+        String genreName = JOptionPane.showInputDialog("Enter new genre name:");
+        if (genreName != null && !genreName.trim().isEmpty()) {
+            Genre newGenre = new Genre(genreName.trim());
+            GenreDAO.addGenre(newGenre);
+            genreListModel.addElement(newGenre);
+        }
+    }
+
+    private void editGenre(JList<Genre> genreList, DefaultListModel<Genre> genreListModel) {
+        Genre selectedGenre = genreList.getSelectedValue();
+        if (selectedGenre != null) {
+            String genreName = JOptionPane.showInputDialog("Edit genre name:", selectedGenre.getName());
+            if (genreName != null && !genreName.trim().isEmpty() && !genreName.trim().equals(selectedGenre.getName())) {
+                selectedGenre.setName(genreName.trim());
+                GenreDAO.updateGenre(selectedGenre);
+                genreListModel.set(genreList.getSelectedIndex(), selectedGenre);
+                refreshAlbumTable();
+                SongPanel.refreshSongTable();
+            }
+        }
+    }
+
+
+    private void deleteGenre(JList<Genre> genreList, DefaultListModel<Genre> genreListModel) {
+        Genre selectedGenre = genreList.getSelectedValue();
+        if (selectedGenre != null) {
+            if (GenreDAO.canDeleteGenre(selectedGenre.getGenreID())) {
+                if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this genre?", "Confirm Deletion", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    GenreDAO.deleteGenre(selectedGenre.getGenreID());
+                    genreListModel.removeElement(selectedGenre);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Cannot delete this genre because there are albums associated with it.", "Deletion Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+
+
     private void refreshAlbumTable() {
-        albumTableModel = new AlbumTableModel(AlbumDAO.getAllAlbumsWithDetails());
+        albumTableModel.setAlbums(AlbumDAO.getAllAlbumsWithDetails());
         albumTable.setModel(albumTableModel);
+        albumTableModel.fireTableDataChanged();
     }
 
 }

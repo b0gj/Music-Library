@@ -29,6 +29,21 @@ public class GenreDAO {
         return null;
     }
 
+    public static boolean canDeleteGenre(int genreId) {
+        String sql = "SELECT COUNT(*) AS count FROM Albums WHERE GenreID = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, genreId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("count") == 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
     public static List<Genre> getAllGenres() {
         List<Genre> genres = new ArrayList<>();
@@ -50,7 +65,7 @@ public class GenreDAO {
         return genres;
     }
 
-    public void addGenre(Genre genre) {
+    public static void addGenre(Genre genre) {
         String sql = "INSERT INTO Genres (Name) VALUES (?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -71,7 +86,7 @@ public class GenreDAO {
         }
     }
 
-    public void updateGenre(Genre genre) {
+    public static void updateGenre(Genre genre) {
         String sql = "UPDATE Genres SET Name = ? WHERE GenreID = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -85,7 +100,7 @@ public class GenreDAO {
         }
     }
 
-    public void deleteGenre(int genreId) {
+    public static void deleteGenre(int genreId) {
         String sql = "DELETE FROM Genres WHERE GenreID = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

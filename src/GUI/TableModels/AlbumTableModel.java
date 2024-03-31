@@ -6,7 +6,7 @@ import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
 public class AlbumTableModel extends AbstractTableModel {
-    private final List<AlbumFull> albums;
+    private List<AlbumFull> albums;
     private final String[] columnNames = {"Title", "Artist", "Genre", "Songs Count", "Release Year"};
 
     public AlbumTableModel(List<AlbumFull> albums) {
@@ -43,5 +43,9 @@ public class AlbumTableModel extends AbstractTableModel {
 
     public int getAlbumIdAtRow(int rowIndex) {
         return albums.get(rowIndex).getID();
+    }
+
+    public void setAlbums(List<AlbumFull> albums) {
+        this.albums = albums;
     }
 }
